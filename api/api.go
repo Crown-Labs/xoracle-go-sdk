@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"xoracle-go-sdk/common"
+	"github.com/Crown-Labs/xoracle-go-sdk/common"
 )
 
 type Api struct {

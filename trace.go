@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"xoracle-go-sdk/api"
-	"xoracle-go-sdk/common"
+
+	"github.com/Crown-Labs/xoracle-go-sdk/api"
+	"github.com/Crown-Labs/xoracle-go-sdk/common"
 )
 
 func main() {

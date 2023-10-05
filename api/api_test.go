@@ -2,7 +2,8 @@ package api
 
 import (
 	"testing"
-	"xoracle-go-sdk/common"
+
+	"github.com/Crown-Labs/xoracle-go-sdk/common"
 )
 
 func TestGetTokenIndexPrice(t *testing.T) {

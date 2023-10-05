@@ -1,4 +1,4 @@
-module xoracle-go-sdk
+module github.com/Crown-Labs/xoracle-go-sdk
 
 go 1.19
 
