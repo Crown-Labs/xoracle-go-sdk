@@ -5,7 +5,7 @@ The `xoracle-go-sdk` package provides a Go client for the xOracle API.
 To install the package, you need to have Go installed on your system. You can download and install Go from the official website: `https://golang.org/dl/`
 
 Once you have Go installed, you can install the package using the following command:
-```javascript
+```bash
 go get github.com/Crown-Labs/xoracle-go-sdk
 ```
 This will download and install the package and its dependencies.
@@ -18,7 +18,7 @@ This will download and install the package and its dependencies.
 
 ## Usage
 To use the package, you need to import it in your Go code:
-```javascript
+```go
 package main
 
 import (
