@@ -1,6 +1,7 @@
 package api
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/Crown-Labs/xoracle-go-sdk/common"
@@ -54,7 +55,7 @@ func TestGetTokenAddressPrice(t *testing.T) {
 			// Check tip.TokenAddress is in addresses
 			isFound := false
 			for _, address := range chain.TokenAddress {
-				if v.TokenAddress == address {
+				if bytes.Equal(v.TokenAddress.Bytes(), address.Bytes()) {
 					isFound = true
 					break
 				}
@@ -111,7 +112,7 @@ func TestGetNodeInfo(t *testing.T) {
 
 	// Test that each NodeInfo struct has a non-zero node address and name
 	for _, v := range nodeInfo {
-		if v.NodeAddress == "" {
+		if v.NodeAddress.Bytes() == nil {
 			t.Errorf("GetNodeInfo returned a NodeInfo with an empty node address")
 		}
 		if v.NodeName == "" {

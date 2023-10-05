@@ -8,6 +8,7 @@ import (
 	"sort"
 
 	"github.com/Crown-Labs/xoracle-go-sdk/common"
+	geth_common "github.com/ethereum/go-ethereum/common"
 )
 
 type Api struct {
@@ -88,13 +89,13 @@ func (a *Api) GetTokenAddressPrice(networkId int) ([]common.TokenAddressPrice, e
 
 	var tokenAddressPrices []common.TokenAddressPrice
 	for _, tokenIndexPrice := range tokenIndexPrices {
-		address := a.config.Chains[networkId].TokenAddress[tokenIndexPrice.TokenIndex]
-		if address == "" {
+		tokenAddress, ok := a.config.Chains[networkId].TokenAddress[tokenIndexPrice.TokenIndex]
+		if !ok {
 			continue
 		}
 
 		tokenAddressPrices = append(tokenAddressPrices, common.TokenAddressPrice{
-			TokenAddress: address,
+			TokenAddress: tokenAddress,
 			Price:        tokenIndexPrice.Price,
 		})
 	}
@@ -144,7 +145,7 @@ func (a *Api) GetNodeInfo() ([]common.NodeInfo, error) {
 	var nodes []common.NodeInfo
 	for _, v := range data {
 		nodes = append(nodes, common.NodeInfo{
-			NodeAddress: v["address"].(string),
+			NodeAddress: geth_common.HexToAddress(v["address"].(string)),
 			NodeName:    v["name"].(string),
 		})
 	}
