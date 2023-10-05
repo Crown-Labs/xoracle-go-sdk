@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"math/big"
 	"net/http"
-	"strconv"
+	"sort"
 
 	"github.com/Crown-Labs/xoracle-go-sdk/common"
 )
@@ -47,7 +47,7 @@ func (a *Api) GetTokenIndexPrice() ([]common.TokenIndexPrice, error) {
 	}
 	defer resp.Body.Close()
 
-	var data map[string]string
+	var data map[int]string
 	err = json.NewDecoder(resp.Body).Decode(&data)
 	if err != nil {
 		return nil, err
@@ -55,11 +55,7 @@ func (a *Api) GetTokenIndexPrice() ([]common.TokenIndexPrice, error) {
 
 	var tokenIndexPrices []common.TokenIndexPrice
 	for k, v := range data {
-		tokenIndex, err := strconv.Atoi(k)
-		if err != nil {
-			return nil, err
-		}
-
+		tokenIndex := k
 		if !a.acceptTokenIndex[tokenIndex] {
 			continue
 		}
@@ -75,6 +71,11 @@ func (a *Api) GetTokenIndexPrice() ([]common.TokenIndexPrice, error) {
 		})
 	}
 
+	// Sort by token index
+	sort.Slice(tokenIndexPrices, func(i, j int) bool {
+		return tokenIndexPrices[i].TokenIndex < tokenIndexPrices[j].TokenIndex
+	})
+
 	return tokenIndexPrices, nil
 }
 
@@ -85,20 +86,20 @@ func (a *Api) GetTokenAddressPrice(networkId int) ([]common.TokenAddressPrice, e
 		return nil, err
 	}
 
-	var tokenAddressPrice []common.TokenAddressPrice
+	var tokenAddressPrices []common.TokenAddressPrice
 	for _, tokenIndexPrice := range tokenIndexPrices {
 		address := a.config.Chains[networkId].TokenAddress[tokenIndexPrice.TokenIndex]
 		if address == "" {
 			continue
 		}
 
-		tokenAddressPrice = append(tokenAddressPrice, common.TokenAddressPrice{
+		tokenAddressPrices = append(tokenAddressPrices, common.TokenAddressPrice{
 			TokenAddress: address,
 			Price:        tokenIndexPrice.Price,
 		})
 	}
 
-	return tokenAddressPrice, nil
+	return tokenAddressPrices, nil
 }
 
 func (a *Api) GetTokenIndexInfo() (map[int]common.TokenIndexInfo, error) {

@@ -19,8 +19,8 @@ func TestGetTokenIndexPrice(t *testing.T) {
 	}
 
 	// Test that each TokenIndexPrice struct has a non-zero token index and price
-	for _, tip := range tokenIndexPrices {
-		if tip.Price.Sign() == 0 {
+	for _, v := range tokenIndexPrices {
+		if v.Price.Sign() == 0 {
 			t.Errorf("GetTokenIndexPrice returned a TokenIndexPrice with a zero price")
 		}
 	}
@@ -50,11 +50,11 @@ func TestGetTokenAddressPrice(t *testing.T) {
 		}
 
 		// Test that each TokenAddressPrice struct has a non-zero token address and price
-		for _, tip := range tokenAddressPrices {
+		for _, v := range tokenAddressPrices {
 			// Check tip.TokenAddress is in addresses
 			isFound := false
 			for _, address := range chain.TokenAddress {
-				if tip.TokenAddress == address {
+				if v.TokenAddress == address {
 					isFound = true
 					break
 				}
@@ -64,9 +64,35 @@ func TestGetTokenAddressPrice(t *testing.T) {
 				t.Errorf("GetTokenAddressPrice returned a TokenAddressPrice with an invalid address")
 			}
 
-			if tip.Price.Sign() == 0 {
+			if v.Price.Sign() == 0 {
 				t.Errorf("GetTokenIndexPrice returned a TokenIndexPrice with a zero price")
 			}
+		}
+	}
+}
+
+func TestGetTokenIndexInfo(t *testing.T) {
+	api := NewApi(nil)
+
+	// Test that the function returns a non-empty slice of TokenIndexInfo structs
+	tokenIndexInfo, err := api.GetTokenIndexInfo()
+	if err != nil {
+		t.Errorf("GetTokenIndexInfo returned an error: %v", err)
+	}
+	if len(tokenIndexInfo) == 0 {
+		t.Errorf("GetTokenIndexInfo returned an empty slice")
+	}
+
+	// Test that each TokenIndexInfo struct has a non-zero token index, name and symbol
+	for k, v := range tokenIndexInfo {
+		if !common.AllowTokenIndex[k] {
+			t.Errorf("GetTokenIndexInfo returned a TokenIndexInfo with an invalid token index")
+		}
+		if v.TokenName == "" {
+			t.Errorf("GetTokenIndexInfo returned a TokenIndexInfo with an empty token name")
+		}
+		if v.TokenSymbol == "" {
+			t.Errorf("GetTokenIndexInfo returned a TokenIndexInfo with an empty token symbol")
 		}
 	}
 }
@@ -84,11 +110,11 @@ func TestGetNodeInfo(t *testing.T) {
 	}
 
 	// Test that each NodeInfo struct has a non-zero node address and name
-	for _, ni := range nodeInfo {
-		if ni.NodeAddress == "" {
+	for _, v := range nodeInfo {
+		if v.NodeAddress == "" {
 			t.Errorf("GetNodeInfo returned a NodeInfo with an empty node address")
 		}
-		if ni.NodeName == "" {
+		if v.NodeName == "" {
 			t.Errorf("GetNodeInfo returned a NodeInfo with an empty node name")
 		}
 	}
