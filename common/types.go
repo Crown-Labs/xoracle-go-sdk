@@ -2,6 +2,8 @@ package common
 
 import (
 	"math/big"
+
+	geth_common "github.com/ethereum/go-ethereum/common"
 )
 
 // Constants
@@ -43,7 +45,7 @@ type TokenIndex struct {
 
 type ChainsType map[int]struct {
 	NetworkId    int
-	TokenAddress map[int]string
+	TokenAddress map[int]geth_common.Address
 }
 
 type ConfigType struct {
@@ -63,16 +65,17 @@ type TokenIndexPrice struct {
 }
 
 type TokenAddressPrice struct {
-	TokenAddress string
+	TokenAddress geth_common.Address
 	Price        *big.Int
 }
 
 type TokenIndexInfo struct {
+	TokenIndex  int
 	TokenName   string
 	TokenSymbol string
 }
 
 type NodeInfo struct {
-	NodeAddress string
+	NodeAddress geth_common.Address
 	NodeName    string
 }

@@ -1,5 +1,9 @@
 package common
 
+import (
+	geth_common "github.com/ethereum/go-ethereum/common"
+)
+
 // Constants
 var NETWORK_ID = NetworkId{
 	LINEA_TESTNET: 59140,
@@ -66,15 +70,15 @@ var Config = ConfigType{
 	Chains: ChainsType{
 		NETWORK_ID.LINEA_TESTNET: {
 			NetworkId: NETWORK_ID.LINEA_TESTNET,
-			TokenAddress: map[int]string{
-				TOKEN_INDEX.BTC:   ParseAddressFormat("0x687e074EaEe2381705D425381F7A37C04C940AF1"),
-				TOKEN_INDEX.ETH:   ParseAddressFormat("0x2C1b868d6596a18e32E61B901E4060C872647b6C"),
-				TOKEN_INDEX.BNB:   ParseAddressFormat("0xC075e8de84fE99527B1b808DFc6C47D82614c9EB"),
-				TOKEN_INDEX.BUSD:  ParseAddressFormat("0xA8E6fF6990Ec6FC8541c8ed31267CDA0fE5D5fAE"),
-				TOKEN_INDEX.USDC:  ParseAddressFormat("0xe43A1DeFD271211Dbb263734D1775d9c4a6a5d8F"),
-				TOKEN_INDEX.MATIC: ParseAddressFormat("0x4401A335D9e6509044360aE9d77FAD389A0D2FA0"),
-				TOKEN_INDEX.OP:    ParseAddressFormat("0x58e13505bE73abEeC46a367190362c5A7AAD9ddc"),
-				TOKEN_INDEX.ARB:   ParseAddressFormat("0xf9CBC89407B71400a68e8ebCdBB292D19aA8CcB8"),
+			TokenAddress: map[int]geth_common.Address{
+				TOKEN_INDEX.BTC:   geth_common.HexToAddress("0x687e074EaEe2381705D425381F7A37C04C940AF1"),
+				TOKEN_INDEX.ETH:   geth_common.HexToAddress("0x2C1b868d6596a18e32E61B901E4060C872647b6C"),
+				TOKEN_INDEX.BNB:   geth_common.HexToAddress("0xC075e8de84fE99527B1b808DFc6C47D82614c9EB"),
+				TOKEN_INDEX.BUSD:  geth_common.HexToAddress("0xA8E6fF6990Ec6FC8541c8ed31267CDA0fE5D5fAE"),
+				TOKEN_INDEX.USDC:  geth_common.HexToAddress("0xe43A1DeFD271211Dbb263734D1775d9c4a6a5d8F"),
+				TOKEN_INDEX.MATIC: geth_common.HexToAddress("0x4401A335D9e6509044360aE9d77FAD389A0D2FA0"),
+				TOKEN_INDEX.OP:    geth_common.HexToAddress("0x58e13505bE73abEeC46a367190362c5A7AAD9ddc"),
+				TOKEN_INDEX.ARB:   geth_common.HexToAddress("0xf9CBC89407B71400a68e8ebCdBB292D19aA8CcB8"),
 			},
 		},
 	},
