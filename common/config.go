@@ -7,6 +7,7 @@ import (
 // Constants
 var NETWORK_ID = NetworkId{
 	LINEA_TESTNET: 59140,
+	DEVELOP_TESTNET: 1112,
 }
 
 var TOKEN_DECIMALS = 8
@@ -79,6 +80,19 @@ var Config = ConfigType{
 				TOKEN_INDEX.MATIC: geth_common.HexToAddress("0x4401A335D9e6509044360aE9d77FAD389A0D2FA0"),
 				TOKEN_INDEX.OP:    geth_common.HexToAddress("0x58e13505bE73abEeC46a367190362c5A7AAD9ddc"),
 				TOKEN_INDEX.ARB:   geth_common.HexToAddress("0xf9CBC89407B71400a68e8ebCdBB292D19aA8CcB8"),
+			},
+		},
+		NETWORK_ID.DEVELOP_TESTNET: {
+			NetworkId: NETWORK_ID.DEVELOP_TESTNET,
+			TokenAddress: map[int]geth_common.Address{
+				TOKEN_INDEX.BTC:   geth_common.HexToAddress("0x9E4317b6a9e990D38A7D6850e00A794B49F77248"),
+				TOKEN_INDEX.ETH:   geth_common.HexToAddress("0x078c04b8cfC949101905fdd5912D31Aad0a244Cb"),
+				TOKEN_INDEX.BNB:   geth_common.HexToAddress("0x800f889DA4bba83E966536113F4b99461C1d35D2"),
+				TOKEN_INDEX.USDT:  geth_common.HexToAddress("0xa07C8259fBFa95FB7DaDc536030de6b1e9fA3e49"),
+				TOKEN_INDEX.USDC:  geth_common.HexToAddress("0x1eBfbAf2646Eb623334Ea2B5f45D18cDAc3dbfFE"),
+				TOKEN_INDEX.MATIC: geth_common.HexToAddress("0xB5F3587C5a9D04233254dDf7f221AFeA444d7fA6"),
+				TOKEN_INDEX.OP:    geth_common.HexToAddress("0x76806Bb3b09F5fE634a75B6990EfEde67133B7Cf"),
+				TOKEN_INDEX.ARB:   geth_common.HexToAddress("0xEA041B9a61d59E9A4D521Ee72F70Be29F0D43e9b"),
 			},
 		},
 	},
