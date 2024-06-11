@@ -17,8 +17,8 @@ var (
 )
 
 type NetworkId struct {
-	LINEA_TESTNET int
-	DEVELOP_TESTNET int
+	DEVELOP_TESTNET  int
+	ARBITRUM_TESTNET int
 }
 
 type TokenIndex struct {
