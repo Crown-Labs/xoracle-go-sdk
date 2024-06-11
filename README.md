@@ -42,7 +42,7 @@ func main() {
 	})
 
 	// Get token prices
-	networkId := common.NETWORK_ID.LINEA_TESTNET
+	networkId := common.NETWORK_ID.ARBITRUM_TESTNET
 	tokenAddressPrices, err := xOracle.GetTokenAddressPrice(networkId)
 	if err != nil {
 		fmt.Println(err)

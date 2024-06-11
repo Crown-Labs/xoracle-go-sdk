@@ -11,14 +11,13 @@ func main() {
 	api := api.NewApi([]int{
 		common.TOKEN_INDEX.BTC,
 		common.TOKEN_INDEX.ETH,
-		common.TOKEN_INDEX.BNB,
 		common.TOKEN_INDEX.BUSD,
 		common.TOKEN_INDEX.USDC,
-		common.TOKEN_INDEX.MATIC,
+		common.TOKEN_INDEX.SOL,
 		common.TOKEN_INDEX.OP,
 		common.TOKEN_INDEX.ARB,
 	})
-	networkId := common.NETWORK_ID.LINEA_TESTNET
+	networkId := common.NETWORK_ID.ARBITRUM_TESTNET
 
 	// Trace that the function returns a non-empty slice of TokenIndexPrice structs
 	fmt.Printf("\n🔍 xOracle API: %s\n", common.Config.XOracleAPI+common.Config.EndpointAPIPrice)
