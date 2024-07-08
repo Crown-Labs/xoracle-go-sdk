@@ -3,6 +3,7 @@ package api
 import (
 	"bytes"
 	"testing"
+	"time"
 
 	"github.com/Crown-Labs/xoracle-go-sdk/common"
 )
@@ -117,6 +118,75 @@ func TestGetNodeInfo(t *testing.T) {
 		}
 		if v.NodeName == "" {
 			t.Errorf("GetNodeInfo returned a NodeInfo with an empty node name")
+		}
+	}
+}
+
+func GetTokenIndexPriceByTimestamp(t *testing.T) {
+	api := NewApi(nil)
+	// Get timestamp
+	timestamp := time.Now().Unix()
+
+	// Test that the function returns a non-empty slice of TokenIndexPrice structs
+	tokenIndexPrices, err := api.GetTokenIndexPriceByTimestamp(timestamp)
+	if err != nil {
+		t.Errorf("GetTokenIndexPrice returned an error: %v", err)
+	}
+	if len(tokenIndexPrices) == 0 {
+		t.Errorf("GetTokenIndexPrice returned an empty slice")
+	}
+
+	// Test that each TokenIndexPrice struct has a non-zero token index and price
+	for _, v := range tokenIndexPrices {
+		if v.Price.Sign() == 0 {
+			t.Errorf("GetTokenIndexPrice returned a TokenIndexPrice with a zero price")
+		}
+	}
+}
+
+func TestGetTokenAddressPriceByTimestamp(t *testing.T) {
+	api := NewApi([]int{
+		common.TOKEN_INDEX.BTC,
+		common.TOKEN_INDEX.ETH,
+		common.TOKEN_INDEX.BNB,
+		common.TOKEN_INDEX.USDT,
+		common.TOKEN_INDEX.BUSD,
+		common.TOKEN_INDEX.USDC,
+		common.TOKEN_INDEX.MATIC,
+		common.TOKEN_INDEX.OP,
+		common.TOKEN_INDEX.ARB,
+	})
+
+	for networkId, chain := range common.Config.Chains {
+		// Get timestamp
+		timestamp := time.Now().Unix()
+		// Test that the function returns a non-empty slice of TokenAddressPrice structs
+		tokenAddressPrices, err := api.GetTokenAddressPriceByTimestamp(networkId, timestamp)
+		if err != nil {
+			t.Errorf("GetTokenAddressPrice returned an error: %v", err)
+		}
+		if len(tokenAddressPrices) == 0 {
+			t.Errorf("GetTokenAddressPrice returned an empty result")
+		}
+
+		// Test that each TokenAddressPrice struct has a non-zero token address and price
+		for _, v := range tokenAddressPrices {
+			// Check tip.TokenAddress is in addresses
+			isFound := false
+			for _, address := range chain.TokenAddress {
+				if bytes.Equal(v.TokenAddress.Bytes(), address.Bytes()) {
+					isFound = true
+					break
+				}
+			}
+
+			if !isFound {
+				t.Errorf("GetTokenAddressPrice returned a TokenAddressPrice with an invalid address")
+			}
+
+			if v.Price.Sign() == 0 {
+				t.Errorf("GetTokenIndexPrice returned a TokenIndexPrice with a zero price")
+			}
 		}
 	}
 }
