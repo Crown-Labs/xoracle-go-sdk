@@ -152,3 +152,69 @@ func (a *Api) GetNodeInfo() ([]common.NodeInfo, error) {
 
 	return nodes, nil
 }
+
+func (a *Api) GetTokenIndexPriceByTimestamp(timestamp int64) ([]common.TokenIndexPrice, error) {
+	url := a.config.XOracleAPI + a.config.EndpointAPIPrice
+	if timestamp > 0 {
+		url += fmt.Sprintf("?timestamp=%d", timestamp)
+	}
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	var data map[int]string
+	err = json.NewDecoder(resp.Body).Decode(&data)
+	if err != nil {
+		return nil, err
+	}
+
+	var tokenIndexPrices []common.TokenIndexPrice
+	for k, v := range data {
+		tokenIndex := k
+		if !a.acceptTokenIndex[tokenIndex] {
+			continue
+		}
+
+		price, ok := new(big.Int).SetString(v, 10)
+		if !ok {
+			return nil, fmt.Errorf("invalid price: %s", v)
+		}
+
+		tokenIndexPrices = append(tokenIndexPrices, common.TokenIndexPrice{
+			TokenIndex: tokenIndex,
+			Price:      price,
+		})
+	}
+
+	// Sort by token index
+	sort.Slice(tokenIndexPrices, func(i, j int) bool {
+		return tokenIndexPrices[i].TokenIndex < tokenIndexPrices[j].TokenIndex
+	})
+
+	return tokenIndexPrices, nil
+}
+
+// GetTokenAddressPrice returns an array of TokenAddressPrice structs, which contain the token address and its price for a given network ID.
+func (a *Api) GetTokenAddressPriceByTimestamp(networkId int, timestamp int64) ([]common.TokenAddressPrice, error) {
+	tokenIndexPrices, err := a.GetTokenIndexPriceByTimestamp(timestamp)
+	if err != nil {
+		return nil, err
+	}
+
+	var tokenAddressPrices []common.TokenAddressPrice
+	for _, tokenIndexPrice := range tokenIndexPrices {
+		tokenAddress, ok := a.config.Chains[networkId].TokenAddress[tokenIndexPrice.TokenIndex]
+		if !ok {
+			continue
+		}
+
+		tokenAddressPrices = append(tokenAddressPrices, common.TokenAddressPrice{
+			TokenAddress: tokenAddress,
+			Price:        tokenIndexPrice.Price,
+		})
+	}
+
+	return tokenAddressPrices, nil
+}
