@@ -17,7 +17,6 @@ func main() {
 		common.TOKEN_INDEX.OP,
 		common.TOKEN_INDEX.ARB,
 	})
-	networkId := common.NETWORK_ID.ARBITRUM_TESTNET
 
 	// Trace that the function returns a non-empty slice of TokenIndexPrice structs
 	fmt.Printf("\n🔍 xOracle API: %s\n", common.Config.XOracleAPI+common.Config.EndpointAPIPrice)
@@ -29,19 +28,6 @@ func main() {
 	for _, price := range tokenIndexPrices {
 		fmt.Printf("TokenIndex: %d, Price: %s, Price 18 Decimals: %s\n",
 			price.TokenIndex,
-			price.Price.String(),
-			common.ConvertPriceDecimals(price.Price, 18).String(),
-		)
-	}
-
-	tokenAddressPrices, err := api.GetTokenAddressPrice(networkId)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	for _, price := range tokenAddressPrices {
-		fmt.Printf("TokenAddress: %s, Price: %s, Price 18 Decimals: %s\n",
-			price.TokenAddress,
 			price.Price.String(),
 			common.ConvertPriceDecimals(price.Price, 18).String(),
 		)

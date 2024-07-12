@@ -1,11 +1,11 @@
 package api
 
 import (
-	"bytes"
+	"math/big"
 	"testing"
-	"time"
 
 	"github.com/Crown-Labs/xoracle-go-sdk/common"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetTokenIndexPrice(t *testing.T) {
@@ -24,51 +24,6 @@ func TestGetTokenIndexPrice(t *testing.T) {
 	for _, v := range tokenIndexPrices {
 		if v.Price.Sign() == 0 {
 			t.Errorf("GetTokenIndexPrice returned a TokenIndexPrice with a zero price")
-		}
-	}
-}
-
-func TestGetTokenAddressPrice(t *testing.T) {
-	api := NewApi([]int{
-		common.TOKEN_INDEX.BTC,
-		common.TOKEN_INDEX.ETH,
-		common.TOKEN_INDEX.BNB,
-		common.TOKEN_INDEX.USDT,
-		common.TOKEN_INDEX.BUSD,
-		common.TOKEN_INDEX.USDC,
-		common.TOKEN_INDEX.MATIC,
-		common.TOKEN_INDEX.OP,
-		common.TOKEN_INDEX.ARB,
-	})
-
-	for networkId, chain := range common.Config.Chains {
-		// Test that the function returns a non-empty slice of TokenAddressPrice structs
-		tokenAddressPrices, err := api.GetTokenAddressPrice(networkId)
-		if err != nil {
-			t.Errorf("GetTokenAddressPrice returned an error: %v", err)
-		}
-		if len(tokenAddressPrices) == 0 {
-			t.Errorf("GetTokenAddressPrice returned an empty result")
-		}
-
-		// Test that each TokenAddressPrice struct has a non-zero token address and price
-		for _, v := range tokenAddressPrices {
-			// Check tip.TokenAddress is in addresses
-			isFound := false
-			for _, address := range chain.TokenAddress {
-				if bytes.Equal(v.TokenAddress.Bytes(), address.Bytes()) {
-					isFound = true
-					break
-				}
-			}
-
-			if !isFound {
-				t.Errorf("GetTokenAddressPrice returned a TokenAddressPrice with an invalid address")
-			}
-
-			if v.Price.Sign() == 0 {
-				t.Errorf("GetTokenIndexPrice returned a TokenIndexPrice with a zero price")
-			}
 		}
 	}
 }
@@ -122,10 +77,28 @@ func TestGetNodeInfo(t *testing.T) {
 	}
 }
 
-func GetTokenIndexPriceByTimestamp(t *testing.T) {
-	api := NewApi(nil)
+func TestGetTokenIndexPriceByTimestamp(t *testing.T) {
+	api := NewApi([]int{
+		common.TOKEN_INDEX.BTC,
+		common.TOKEN_INDEX.ETH,
+		common.TOKEN_INDEX.USDT,
+		common.TOKEN_INDEX.USDC,
+		common.TOKEN_INDEX.SOL,
+		common.TOKEN_INDEX.OP,
+		common.TOKEN_INDEX.ARB,
+	})
 	// Get timestamp
-	timestamp := time.Now().Unix()
+	var timestamp int64 = 1720569600 // 2024-07-10 00:00:00 UTC
+	assert := assert.New(t)
+	kvMap := map[int]*big.Int{
+		0:  big.NewInt(5802596226469),
+		1:  big.NewInt(306450811266),
+		3:  big.NewInt(99964254),
+		5:  big.NewInt(99987895),
+		22: big.NewInt(14149421526),
+		28: big.NewInt(161950000),
+		29: big.NewInt(70967075),
+	}
 
 	// Test that the function returns a non-empty slice of TokenIndexPrice structs
 	tokenIndexPrices, err := api.GetTokenIndexPriceByTimestamp(timestamp)
@@ -135,57 +108,14 @@ func GetTokenIndexPriceByTimestamp(t *testing.T) {
 	if len(tokenIndexPrices) == 0 {
 		t.Errorf("GetTokenIndexPrice returned an empty slice")
 	}
-
 	// Test that each TokenIndexPrice struct has a non-zero token index and price
 	for _, v := range tokenIndexPrices {
 		if v.Price.Sign() == 0 {
 			t.Errorf("GetTokenIndexPrice returned a TokenIndexPrice with a zero price")
 		}
-	}
-}
-
-func TestGetTokenAddressPriceByTimestamp(t *testing.T) {
-	api := NewApi([]int{
-		common.TOKEN_INDEX.BTC,
-		common.TOKEN_INDEX.ETH,
-		common.TOKEN_INDEX.BNB,
-		common.TOKEN_INDEX.USDT,
-		common.TOKEN_INDEX.BUSD,
-		common.TOKEN_INDEX.USDC,
-		common.TOKEN_INDEX.MATIC,
-		common.TOKEN_INDEX.OP,
-		common.TOKEN_INDEX.ARB,
-	})
-
-	for networkId, chain := range common.Config.Chains {
-		// Get timestamp
-		timestamp := time.Now().Unix()
-		// Test that the function returns a non-empty slice of TokenAddressPrice structs
-		tokenAddressPrices, err := api.GetTokenAddressPriceByTimestamp(networkId, timestamp)
-		if err != nil {
-			t.Errorf("GetTokenAddressPrice returned an error: %v", err)
-		}
-		if len(tokenAddressPrices) == 0 {
-			t.Errorf("GetTokenAddressPrice returned an empty result")
-		}
-
-		// Test that each TokenAddressPrice struct has a non-zero token address and price
-		for _, v := range tokenAddressPrices {
-			// Check tip.TokenAddress is in addresses
-			isFound := false
-			for _, address := range chain.TokenAddress {
-				if bytes.Equal(v.TokenAddress.Bytes(), address.Bytes()) {
-					isFound = true
-					break
-				}
-			}
-
-			if !isFound {
-				t.Errorf("GetTokenAddressPrice returned a TokenAddressPrice with an invalid address")
-			}
-
-			if v.Price.Sign() == 0 {
-				t.Errorf("GetTokenIndexPrice returned a TokenIndexPrice with a zero price")
+		for k2, v2 := range kvMap {
+			if v.TokenIndex == k2 {
+				assert.Equal(v.Price, v2)
 			}
 		}
 	}

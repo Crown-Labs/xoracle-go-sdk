@@ -80,29 +80,6 @@ func (a *Api) GetTokenIndexPrice() ([]common.TokenIndexPrice, error) {
 	return tokenIndexPrices, nil
 }
 
-// GetTokenAddressPrice returns an array of TokenAddressPrice structs, which contain the token address and its price for a given network ID.
-func (a *Api) GetTokenAddressPrice(networkId int) ([]common.TokenAddressPrice, error) {
-	tokenIndexPrices, err := a.GetTokenIndexPrice()
-	if err != nil {
-		return nil, err
-	}
-
-	var tokenAddressPrices []common.TokenAddressPrice
-	for _, tokenIndexPrice := range tokenIndexPrices {
-		tokenAddress, ok := a.config.Chains[networkId].TokenAddress[tokenIndexPrice.TokenIndex]
-		if !ok {
-			continue
-		}
-
-		tokenAddressPrices = append(tokenAddressPrices, common.TokenAddressPrice{
-			TokenAddress: tokenAddress,
-			Price:        tokenIndexPrice.Price,
-		})
-	}
-
-	return tokenAddressPrices, nil
-}
-
 func (a *Api) GetTokenIndexInfo() (map[int]common.TokenIndexInfo, error) {
 	url := a.config.XOracleAPI + a.config.EndpointAPITokenIndexInfo
 	resp, err := http.Get(url)
@@ -156,7 +133,7 @@ func (a *Api) GetNodeInfo() ([]common.NodeInfo, error) {
 func (a *Api) GetTokenIndexPriceByTimestamp(timestamp int64) ([]common.TokenIndexPrice, error) {
 	url := a.config.XOracleAPI + a.config.EndpointAPIPrice
 	if timestamp > 0 {
-		url += fmt.Sprintf("?timestamp=%d", timestamp)
+		url += fmt.Sprintf("?timestamps=%d", timestamp)
 	}
 	resp, err := http.Get(url)
 	if err != nil {
@@ -194,27 +171,4 @@ func (a *Api) GetTokenIndexPriceByTimestamp(timestamp int64) ([]common.TokenInde
 	})
 
 	return tokenIndexPrices, nil
-}
-
-// GetTokenAddressPrice returns an array of TokenAddressPrice structs, which contain the token address and its price for a given network ID.
-func (a *Api) GetTokenAddressPriceByTimestamp(networkId int, timestamp int64) ([]common.TokenAddressPrice, error) {
-	tokenIndexPrices, err := a.GetTokenIndexPriceByTimestamp(timestamp)
-	if err != nil {
-		return nil, err
-	}
-
-	var tokenAddressPrices []common.TokenAddressPrice
-	for _, tokenIndexPrice := range tokenIndexPrices {
-		tokenAddress, ok := a.config.Chains[networkId].TokenAddress[tokenIndexPrice.TokenIndex]
-		if !ok {
-			continue
-		}
-
-		tokenAddressPrices = append(tokenAddressPrices, common.TokenAddressPrice{
-			TokenAddress: tokenAddress,
-			Price:        tokenIndexPrice.Price,
-		})
-	}
-
-	return tokenAddressPrices, nil
 }
