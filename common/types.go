@@ -44,11 +44,6 @@ type TokenIndex struct {
 	ARB   int
 }
 
-type ChainsType map[int]struct {
-	NetworkId    int
-	TokenAddress map[int]geth_common.Address
-}
-
 type ConfigType struct {
 	XOracleAPI                 string
 	EndpointAPIPrice           string
@@ -57,17 +52,11 @@ type ConfigType struct {
 	EndpointAPIPricefeed       string
 	EndpointAPITokenIndexInfo  string
 	EndpointAPINodeInfo        string
-	Chains                     ChainsType
 }
 
 type TokenIndexPrice struct {
 	TokenIndex int
 	Price      *big.Int
-}
-
-type TokenAddressPrice struct {
-	TokenAddress geth_common.Address
-	Price        *big.Int
 }
 
 type TokenIndexInfo struct {
