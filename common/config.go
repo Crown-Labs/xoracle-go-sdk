@@ -25,7 +25,30 @@ var TOKEN_INDEX = TokenIndex{
 	ARB:   29,
 }
 
-var AllowTokenIndex = map[int]bool{
+var MainnetAllowTokenIndex = map[int]bool{
+	TOKEN_INDEX.BTC:   true,
+	TOKEN_INDEX.ETH:   true,
+	TOKEN_INDEX.BNB:   true,
+	TOKEN_INDEX.USDT:  true,
+	TOKEN_INDEX.BUSD:  true,
+	TOKEN_INDEX.USDC:  true,
+	TOKEN_INDEX.DAI:   true,
+	TOKEN_INDEX.XRP:   true,
+	TOKEN_INDEX.DOGE:  true,
+	TOKEN_INDEX.TRX:   true,
+	TOKEN_INDEX.ADA:   true,
+	TOKEN_INDEX.MATIC: true,
+	TOKEN_INDEX.SOL:   true,
+	TOKEN_INDEX.DOT:   true,
+	TOKEN_INDEX.AVAX:  true,
+	TOKEN_INDEX.FTM:   true,
+	TOKEN_INDEX.NEAR:  true,
+	TOKEN_INDEX.ATOM:  true,
+	TOKEN_INDEX.OP:    true,
+	TOKEN_INDEX.ARB:   true,
+}
+
+var TestnetAllowTokenIndex = map[int]bool{
 	TOKEN_INDEX.BTC:   true,
 	TOKEN_INDEX.ETH:   true,
 	TOKEN_INDEX.BNB:   true,

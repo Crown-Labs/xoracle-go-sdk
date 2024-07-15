@@ -55,10 +55,11 @@ func TestGetTokenIndexInfo(t *testing.T) {
 	if len(tokenIndexInfo) == 0 {
 		t.Errorf("GetTokenIndexInfo returned an empty slice")
 	}
+	_, configAllowTokenIndex := GetConfig("testnet")
 
 	// Test that each TokenIndexInfo struct has a non-zero token index, name and symbol
 	for k, v := range tokenIndexInfo {
-		if !common.AllowTokenIndex[k] {
+		if !configAllowTokenIndex[k] {
 			t.Errorf("GetTokenIndexInfo returned a TokenIndexInfo with an invalid token index")
 		}
 		if v.TokenName == "" {
