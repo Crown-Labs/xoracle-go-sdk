@@ -49,8 +49,18 @@ var AllowTokenIndex = map[int]bool{
 }
 
 // Config
-var Config = ConfigType{
-	XOracleAPI:                 AppendUrlWithSlash("https://api.xoracle.io"),
+var MainnetConfig = ConfigType{
+	XOracleAPI:                 "https://api.xoracle.io/",
+	EndpointAPIPrice:           "prices/xoracle",
+	EndpointAPINodePrice:       "", // prices/xoracle/node
+	EndpointAPITokenIndexPrice: "", // prices/xoracle/:index
+	EndpointAPIPricefeed:       "", // prices/pricefeed/:timestamp
+	EndpointAPITokenIndexInfo:  "prices/tokenIndexInfo",
+	EndpointAPINodeInfo:        "prices/nodeInfo",
+}
+
+var TestnetConfig = ConfigType{
+	XOracleAPI:                 "https://api-testnet.xoracle.io/",
 	EndpointAPIPrice:           "prices/xoracle",
 	EndpointAPINodePrice:       "", // prices/xoracle/node
 	EndpointAPITokenIndexPrice: "", // prices/xoracle/:index

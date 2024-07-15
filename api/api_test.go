@@ -9,7 +9,15 @@ import (
 )
 
 func TestGetTokenIndexPrice(t *testing.T) {
-	api := NewApi(nil)
+	api := NewApi("testnet", []int{
+		common.TOKEN_INDEX.BTC,
+		common.TOKEN_INDEX.ETH,
+		common.TOKEN_INDEX.USDT,
+		common.TOKEN_INDEX.USDC,
+		common.TOKEN_INDEX.SOL,
+		common.TOKEN_INDEX.OP,
+		common.TOKEN_INDEX.ARB,
+	})
 
 	// Test that the function returns a non-empty slice of TokenIndexPrice structs
 	tokenIndexPrices, err := api.GetTokenIndexPrice()
@@ -29,7 +37,15 @@ func TestGetTokenIndexPrice(t *testing.T) {
 }
 
 func TestGetTokenIndexInfo(t *testing.T) {
-	api := NewApi(nil)
+	api := NewApi("testnet", []int{
+		common.TOKEN_INDEX.BTC,
+		common.TOKEN_INDEX.ETH,
+		common.TOKEN_INDEX.USDT,
+		common.TOKEN_INDEX.USDC,
+		common.TOKEN_INDEX.SOL,
+		common.TOKEN_INDEX.OP,
+		common.TOKEN_INDEX.ARB,
+	})
 
 	// Test that the function returns a non-empty slice of TokenIndexInfo structs
 	tokenIndexInfo, err := api.GetTokenIndexInfo()
@@ -55,7 +71,15 @@ func TestGetTokenIndexInfo(t *testing.T) {
 }
 
 func TestGetNodeInfo(t *testing.T) {
-	api := NewApi(nil)
+	api := NewApi("testnet", []int{
+		common.TOKEN_INDEX.BTC,
+		common.TOKEN_INDEX.ETH,
+		common.TOKEN_INDEX.USDT,
+		common.TOKEN_INDEX.USDC,
+		common.TOKEN_INDEX.SOL,
+		common.TOKEN_INDEX.OP,
+		common.TOKEN_INDEX.ARB,
+	})
 
 	// Test that the function returns a non-empty slice of NodeInfo structs
 	nodeInfo, err := api.GetNodeInfo()
@@ -78,7 +102,7 @@ func TestGetNodeInfo(t *testing.T) {
 }
 
 func TestGetTokenIndexPriceByTimestamp(t *testing.T) {
-	api := NewApi([]int{
+	api := NewApi("mainnet", []int{
 		common.TOKEN_INDEX.BTC,
 		common.TOKEN_INDEX.ETH,
 		common.TOKEN_INDEX.USDT,

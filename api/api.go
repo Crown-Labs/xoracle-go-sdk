@@ -18,9 +18,9 @@ type Api struct {
 
 // NewApi returns a new Api instance.
 // It accepts a slice of token indexes, which are used to filter the results of the GetTokenIndexPrice and GetTokenAddressPrice functions.
-func NewApi(tokenIndexes []int) *Api {
+func NewApi(network string, tokenIndexes []int) *Api {
 	var acceptTokenIndex = make(map[int]bool)
-
+	Config := GetConfig(network)
 	if len(tokenIndexes) > 0 {
 		for _, tokenIndex := range tokenIndexes {
 			if !common.AllowTokenIndex[tokenIndex] {
@@ -34,7 +34,18 @@ func NewApi(tokenIndexes []int) *Api {
 
 	return &Api{
 		acceptTokenIndex: acceptTokenIndex,
-		config:           common.Config,
+		config:           Config,
+	}
+}
+
+func GetConfig(network string) common.ConfigType {
+	switch network {
+	case "mainnet":
+		return common.MainnetConfig
+	case "testnet":
+		return common.TestnetConfig
+	default:
+		return common.MainnetConfig
 	}
 }
 
