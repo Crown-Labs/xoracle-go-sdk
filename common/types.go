@@ -16,11 +16,6 @@ var (
 	BigFloatBase9  = big.NewFloat(1e9)
 )
 
-type NetworkId struct {
-	DEVELOP_TESTNET  int
-	ARBITRUM_TESTNET int
-}
-
 type TokenIndex struct {
 	BTC   int
 	ETH   int
