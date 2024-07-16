@@ -64,3 +64,10 @@ type NodeInfo struct {
 	NodeAddress geth_common.Address
 	NodeName    string
 }
+
+type NetworkType int
+
+type Network struct {
+	MAINNET NetworkType
+	TESTNET NetworkType
+}

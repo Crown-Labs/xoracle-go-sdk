@@ -40,12 +40,10 @@ func NewApi(network common.NetworkType, tokenIndexes []int) *Api {
 }
 
 func GetConfig(network common.NetworkType) (common.ConfigType, map[int]bool) {
-	if network == "mainnet" {
-		return common.MainnetConfig, common.MainnetAllowTokenIndex
-	} else if network == "testnet" {
+	if network == common.NETWORK.TESTNET {
 		return common.TestnetConfig, common.TestnetAllowTokenIndex
 	}
-	return common.TestnetConfig, common.TestnetAllowTokenIndex
+	return common.MainnetConfig, common.MainnetAllowTokenIndex
 }
 
 // GetTokenIndexPrice retrieves the current prices of all tokens in the XOracle index.

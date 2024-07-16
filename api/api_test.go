@@ -9,7 +9,7 @@ import (
 )
 
 func TestGetTokenIndexPrice(t *testing.T) {
-	api := NewApi(common.TESTNET, []int{
+	api := NewApi(common.NETWORK.MAINNET, []int{
 		common.TOKEN_INDEX.BTC,
 		common.TOKEN_INDEX.ETH,
 		common.TOKEN_INDEX.USDT,
@@ -37,7 +37,7 @@ func TestGetTokenIndexPrice(t *testing.T) {
 }
 
 func TestGetTokenIndexInfo(t *testing.T) {
-	network := common.TESTNET
+	network := common.NETWORK.MAINNET
 	api := NewApi(network, []int{
 		common.TOKEN_INDEX.BTC,
 		common.TOKEN_INDEX.ETH,
@@ -73,7 +73,7 @@ func TestGetTokenIndexInfo(t *testing.T) {
 }
 
 func TestGetNodeInfo(t *testing.T) {
-	api := NewApi(common.TESTNET, []int{
+	api := NewApi(common.NETWORK.MAINNET, []int{
 		common.TOKEN_INDEX.BTC,
 		common.TOKEN_INDEX.ETH,
 		common.TOKEN_INDEX.USDT,
@@ -104,7 +104,7 @@ func TestGetNodeInfo(t *testing.T) {
 }
 
 func TestGetTokenIndexPriceByTimestamp(t *testing.T) {
-	api := NewApi(common.MAINNET, []int{
+	api := NewApi(common.NETWORK.MAINNET, []int{
 		common.TOKEN_INDEX.BTC,
 		common.TOKEN_INDEX.ETH,
 		common.TOKEN_INDEX.USDT,
