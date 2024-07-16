@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	api := api.NewApi([]int{
+	api := api.NewApi(common.NETWORK.MAINNET, []int{
 		common.TOKEN_INDEX.BTC,
 		common.TOKEN_INDEX.ETH,
 		common.TOKEN_INDEX.BUSD,
@@ -19,7 +19,7 @@ func main() {
 	})
 
 	// Trace that the function returns a non-empty slice of TokenIndexPrice structs
-	fmt.Printf("\n🔍 xOracle API: %s\n", common.Config.XOracleAPI+common.Config.EndpointAPIPrice)
+	fmt.Printf("\n🔍 xOracle API: %s\n", common.MainnetConfig.XOracleAPI+common.MainnetConfig.EndpointAPIPrice)
 	tokenIndexPrices, err := api.GetTokenIndexPrice()
 	if err != nil {
 		fmt.Println(err)
@@ -34,7 +34,7 @@ func main() {
 	}
 
 	// Trace that the function returns a non-empty slice of TokenIndexInfo structs
-	fmt.Printf("\n🔍 xOracle API: %s\n", common.Config.XOracleAPI+common.Config.EndpointAPITokenIndexInfo)
+	fmt.Printf("\n🔍 xOracle API: %s\n", common.MainnetConfig.XOracleAPI+common.MainnetConfig.EndpointAPITokenIndexInfo)
 	tokenIndexInfos, err := api.GetTokenIndexInfo()
 	if err != nil {
 		fmt.Println(err)
@@ -44,7 +44,7 @@ func main() {
 	}
 
 	// Trace that the function returns a non-empty slice of NodeInfo structs
-	fmt.Printf("\n🔍 xOracle API: %s\n", common.Config.XOracleAPI+common.Config.EndpointAPINodeInfo)
+	fmt.Printf("\n🔍 xOracle API: %s\n", common.MainnetConfig.XOracleAPI+common.MainnetConfig.EndpointAPINodeInfo)
 	nodeInfos, err := api.GetNodeInfo()
 	if err != nil {
 		fmt.Println(err)
