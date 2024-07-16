@@ -20,7 +20,7 @@ type Api struct {
 // It accepts a slice of token indexes, which are used to filter the results of the GetTokenIndexPrice and GetTokenAddressPrice functions.
 func NewApi(network string, tokenIndexes []int) *Api {
 	var acceptTokenIndex = make(map[int]bool)
-	config, configAllowTokenIndex := GetConfig(network)
+	configApi, configAllowTokenIndex := GetConfig(network)
 
 	if len(tokenIndexes) > 0 {
 		for _, tokenIndex := range tokenIndexes {
@@ -35,19 +35,17 @@ func NewApi(network string, tokenIndexes []int) *Api {
 
 	return &Api{
 		acceptTokenIndex: acceptTokenIndex,
-		config:           config,
+		config:           configApi,
 	}
 }
 
 func GetConfig(network string) (common.ConfigType, map[int]bool) {
-	switch network {
-	case "mainnet":
+	if network == "mainnet" {
 		return common.MainnetConfig, common.MainnetAllowTokenIndex
-	case "testnet":
+	} else if network == "testnet" {
 		return common.TestnetConfig, common.TestnetAllowTokenIndex
-	default:
-		return common.MainnetConfig, common.MainnetAllowTokenIndex
 	}
+	return common.TestnetConfig, common.TestnetAllowTokenIndex
 }
 
 // GetTokenIndexPrice retrieves the current prices of all tokens in the XOracle index.

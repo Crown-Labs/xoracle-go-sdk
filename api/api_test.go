@@ -37,7 +37,8 @@ func TestGetTokenIndexPrice(t *testing.T) {
 }
 
 func TestGetTokenIndexInfo(t *testing.T) {
-	api := NewApi("testnet", []int{
+	network := "mainnet" // mainnet or testnet
+	api := NewApi(network, []int{
 		common.TOKEN_INDEX.BTC,
 		common.TOKEN_INDEX.ETH,
 		common.TOKEN_INDEX.USDT,
@@ -55,7 +56,7 @@ func TestGetTokenIndexInfo(t *testing.T) {
 	if len(tokenIndexInfo) == 0 {
 		t.Errorf("GetTokenIndexInfo returned an empty slice")
 	}
-	_, configAllowTokenIndex := GetConfig("testnet")
+	_, configAllowTokenIndex := GetConfig(network)
 
 	// Test that each TokenIndexInfo struct has a non-zero token index, name and symbol
 	for k, v := range tokenIndexInfo {
