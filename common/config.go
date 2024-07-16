@@ -25,6 +25,13 @@ var TOKEN_INDEX = TokenIndex{
 	ARB:   29,
 }
 
+type NetworkType string
+
+const (
+	MAINNET NetworkType = "mainnet"
+	TESTNET NetworkType = "testnet"
+)
+
 var MainnetAllowTokenIndex = map[int]bool{
 	TOKEN_INDEX.BTC:   true,
 	TOKEN_INDEX.ETH:   true,
